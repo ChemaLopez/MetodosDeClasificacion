@@ -24,7 +24,7 @@ public class LecturaElementos {
 		
 		String currentDir = new File("").getAbsolutePath();
 
-		File newFile = new File(currentDir, "Iris2Clases");
+		File newFile = new File(currentDir, "Iris2Clases.txt");
 
 		String cadena;
 		FileReader lector = new FileReader(newFile);
@@ -36,7 +36,7 @@ public class LecturaElementos {
 				ArrayList<Double> numeros = new ArrayList<Double>();
 				String op[] = cadena.split(",");
 				for (String elementData : op) {
-					if (elementData.matches("[0-9]+") && elementData.length() > 2) {
+					if (elementData.matches("[0-9]+.+[0-9]+")) {
 						numeros.add(Double.parseDouble(elementData));
 					} else {
 						 Elemento elem= new Elemento(numeros, elementData);
