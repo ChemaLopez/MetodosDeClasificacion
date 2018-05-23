@@ -11,7 +11,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import Lectura.ReadEjemplos;
 
 import javax.swing.JTabbedPane;
 
@@ -57,16 +56,16 @@ public class MainWindow extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+		/*
 		try {
-			ReadEjemplos.read();
+			//ReadEjemplos.read();
 		} catch (IOException | NumberFormatException e) {
 			JOptionPane.showMessageDialog(null, "Falta algun archivo o el formato es incorrecto", "ERROR",
 		            JOptionPane.ERROR_MESSAGE);
 			
 			System.exit(0);
 		}
-		
+		*/
 		jpKMedias = new JPKMedias();
 		jpBayes = new JPBayes();
 		jpLloyd = new JPLloyd();

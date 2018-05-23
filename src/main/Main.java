@@ -1,8 +1,13 @@
 package main;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import elemento.LecturaElementos;
+import Clase.Clase;
+import Clase.Elemento;
+import Clase.LecturaElementos;
+import vista.GUI.VentanaPrincipal;
 
 public class Main {
 
@@ -14,6 +19,23 @@ public class Main {
 		
 		try {
 			lectura.leeArchivo();
+			HashMap<String,ArrayList<Elemento>> listaElementos = lectura.getListaElementos();
+			
+			ArrayList<Clase> clases = new ArrayList<>();
+			
+			for(ArrayList<Elemento> key : listaElementos.values()){
+					clases.add(new Clase(key,key.get(0).nombreElemento));
+
+			}
+
+			VentanaPrincipal view = VentanaPrincipal.getInstance();
+			
+			view.setListaElementos(listaElementos);
+			view.setClases(clases);
+			
+			view.initView();
+			
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

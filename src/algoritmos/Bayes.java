@@ -1,4 +1,5 @@
 package algoritmos;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import Jama.Matrix;

@@ -1,4 +1,4 @@
-package elemento;
+package Clase;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -36,6 +36,7 @@ public class LecturaElementos {
 				ArrayList<Double> numeros = new ArrayList<Double>();
 				String op[] = cadena.split(",");
 				for (String elementData : op) {
+					
 					if (elementData.matches("[0-9]+.+[0-9]+")) {
 						numeros.add(Double.parseDouble(elementData));
 					} else {

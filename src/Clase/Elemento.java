@@ -1,17 +1,16 @@
-package elemento;
+package Clase;
 
 import java.util.ArrayList;
 
 public class Elemento {
 
-	public ArrayList<Double>  lista;
+	private  ArrayList<Double> lista;
 	public String nombreElemento;
-	
-	
+
 	
 	public Elemento(ArrayList<Double> lista, String nombreElemento) {
 		super();
-		this.lista = lista;
+		this.lista=lista;
 		this.nombreElemento = nombreElemento;
 	}
 	
@@ -28,5 +27,6 @@ public class Elemento {
 	public void setNombreElemento(String nombreElemento) {
 		this.nombreElemento = nombreElemento;
 	}
+	
 	
 }
