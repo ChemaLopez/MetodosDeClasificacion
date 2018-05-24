@@ -2,20 +2,27 @@ package vista.GUI;
 
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import Clase.Clase;
 import Datos.Datos;
 import algoritmos.KMeans;
 import util.MatrizToVectorVector;
 import javax.swing.BoxLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.Component;
 
 public class JPKMedias extends JPanel {
@@ -24,86 +31,89 @@ public class JPKMedias extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;	
-	private JPEjemplos panelEjemplos;
 	private JPResultados panelResultados;
-	private JTextArea textField;
-	private JTextArea textField_1;
-
+	
+	private ArrayList<Clase> clases;
+	
+	
+	private static JPKMedias  instance;
+	
+	public static JPKMedias getInstance() {
+		
+		if(instance==null)
+			instance = new JPKMedias();
+		
+		return instance;
+	}
+	
 	/**
 	 * Create the panel.
 	 */
-	public JPKMedias() {
-		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+	public void initView(){
 		
+
+		//INFORMACION
+		setPreferredSize(new Dimension(600, 600));
+
 		JPanel informacion = new JPanel();
-		add(informacion);
+		JLabel titulo = new  JLabel("Informacion:");
+		titulo.setFont(new Font("Arial", Font.BOLD, 18));
+		informacion.add(titulo);
 		informacion.setLayout(new BoxLayout(informacion, BoxLayout.Y_AXIS));
-		informacion.setBorder(new TitledBorder("Información: "));
-		 ((javax.swing.border.TitledBorder) informacion.getBorder()).
-	        setTitleFont(new Font("Arial", Font.BOLD, 18));
-		 
+		add(informacion);
+
+		//CENTRO DE LAS CLASES 
 		JPanel centros = new JPanel();
-		centros.setBorder(new TitledBorder("Centros de las clases: "));
-		 ((javax.swing.border.TitledBorder) centros.getBorder()).
-	        setTitleFont(new Font("Arial", Font.BOLD, 14));
-		informacion.add(centros);
+		
+		centros.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+		JLabel tituloCentros = new  JLabel("Centros:");
+		tituloCentros.setFont(new Font("Arial", Font.BOLD, 18));		
 		centros.setLayout(new BoxLayout(centros, BoxLayout.Y_AXIS));
+		centros.add(tituloCentros);
+		
+		informacion.add(centros);
 		
 		JPanel c1 = new JPanel();
+		c1.setBorder(new EmptyBorder(10, 10, 10, 10));
 		centros.add(c1);
-		c1.setLayout(new BoxLayout(c1, BoxLayout.X_AXIS));
+		c1.setLayout(new BoxLayout(c1, BoxLayout.Y_AXIS));
 		
-		textField = new JTextArea();
-		textField.setEditable(false);
-		textField.setBorder(new TitledBorder("Clase " + Datos.getClases().get(0) + ": "));
-		textField.setText(Datos.getCentros1String());
-		c1.add(textField);
-		textField.setMaximumSize( 
-			     new Dimension(200, textField.getPreferredSize().height) );
-		textField.setPreferredSize( 
-			     new Dimension(200, textField.getPreferredSize().height) );
+		//CLASES
+		for(Clase clase : clases) {
+			JTextArea textField = new JTextArea();
+			JLabel label = new JLabel(clase.getNombreElemento());
+			textField.setEditable(false);
+			textField.setAlignmentX(Component.LEFT_ALIGNMENT);
+			textField.setText(clase.getCentroString());
+			c1.add(label);
+			c1.add(textField);
+			textField.setMaximumSize( 
+				     new Dimension(200, textField.getPreferredSize().height) );
+			textField.setPreferredSize( 
+				     new Dimension(200, textField.getPreferredSize().height) );
+		}
+		informacion.add(c1);
 		
-		JPanel c2 = new JPanel();
-		centros.add(c2);
-		c2.setLayout(new BoxLayout(c2, BoxLayout.X_AXIS));
-		
-		textField_1 = new JTextArea();
-		textField_1.setEditable(false);
-		textField_1.setBorder(new TitledBorder("Clase " + Datos.getClases().get(1) + ": "));
-		textField_1.setText(Datos.getCentros2String());
-		c2.add(textField_1);
-		textField_1.setMaximumSize( 
-			     new Dimension(200, 50) );
-		textField_1.setPreferredSize( 
-			     new Dimension(200, textField.getPreferredSize().height) );
-		
+		//PARAMETROS DE CONFIGURACION
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder("Parámetros: "));
-		 ((javax.swing.border.TitledBorder) panel.getBorder()).
-	        setTitleFont(new Font("Arial", Font.BOLD, 14));
+		JLabel tituloParams = new  JLabel("Parametros:");
+		tituloParams.setFont(new Font("Arial", Font.BOLD, 18));	
+		tituloParams.setBorder(new EmptyBorder(10, 10, 10, 10));
+		panel.add(tituloParams);
 		informacion.add(panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
+				
 		JLabel lblNewLabel = new JLabel("Tolerancia = 0.01");
-		lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(lblNewLabel);
-		
+		lblNewLabel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
 		JLabel lblPesoExponencial = new JLabel("Peso exponencial = 2");
-		lblPesoExponencial.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(lblPesoExponencial);
+		lblPesoExponencial.setBorder(new EmptyBorder(10, 10, 10, 10));
 		panel.setPreferredSize(informacion.getPreferredSize());
-		
-		JPDatos datos = new JPDatos();
-		datos.setBorder(new TitledBorder("Datos: "));
-		((javax.swing.border.TitledBorder) datos.getBorder()).
-        setTitleFont(new Font("Arial", Font.BOLD, 18));
-		add(datos);
-		
-		panelEjemplos = new JPEjemplos();
-		panelEjemplos.setBorder(new TitledBorder("Ejemplos: "));
-		 ((javax.swing.border.TitledBorder) panelEjemplos.getBorder()).
-	        setTitleFont(new Font("Arial", Font.BOLD, 18));
-		add(panelEjemplos);
+
+	
 		
 		panelResultados = new JPResultados();
 		panelResultados.setBorder(new TitledBorder("Comprobación: "));
@@ -122,11 +132,20 @@ public class JPKMedias extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String[] nombre_clases = {Datos.getClases().get(0), Datos.getClases().get(1)};
-				double[][] datos_centros = Datos.getCentros();
+				String[] nombre_clases = VentanaPrincipal.getInstance().getClasesNombres();
 				
-				double[][] datos_entrenamiento = new double[Datos.getDatosClases().get(0).length + Datos.getDatosClases().get(1).length][Datos.getDatosClases().get(0)[0].length]; 
+				double[][] datos_centros = VentanaPrincipal.getInstance().getCentros();
+				
 						
+				ArrayList<Clase>  listaClases = VentanaPrincipal.getInstance().getClases();
+				int filas=0;
+				for(Clase clase : listaClases) {
+					
+					filas+=clase.getMatriz().length;
+				}
+				
+				double[][] datos_entrenamiento = new double[filas][listaClases.get(0).getMatriz()[0].length]; 
+
 				int pos = 0;
 				for(int i = 0; i < Datos.getDatosClases().get(0).length; i++){
 					datos_entrenamiento[pos+i] = Datos.getDatosClases().get(0)[i];
@@ -160,11 +179,21 @@ public class JPKMedias extends JPanel {
 			
 		});
 		
+		this.setVisible(true);
+
 	}
 	
 	public void refresh(){
-		panelEjemplos.refresh();
 		panelResultados.clear();
 	}
+
+	public ArrayList<Clase> getClases() {
+		return clases;
+	}
+
+	public void setClases(ArrayList<Clase> clases) {
+		this.clases = clases;
+	}
+
 
 }

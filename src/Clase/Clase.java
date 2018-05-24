@@ -5,16 +5,18 @@ import java.util.ArrayList;
 public class Clase {
 
 	
-	public String nombreElemento;
+	private String nombreElemento;
 
 	private double[][] matriz;
 
+	private double[] centro;
+
 	
-	public Clase(ArrayList<Elemento> elementos, String nombre){
+	public Clase(ArrayList<Elemento> elementos, String nombre, double[] ds){
 		
-		this.nombreElemento= nombre;
-		
-		matriz = new double[elementos.size()][elementos.get(0).getLista().size()];
+		this.setNombreElemento(nombre);
+		this.centro=ds;
+		matriz = new double[elementos.size()][elementos.get(0).getLista().length];
 		
 		int i=0;
 		
@@ -33,5 +35,37 @@ public class Clase {
 	}
 	
 	
+	public double[] getCentro(){
+		return centro;
+	}
+	
+
+	public String getCentroString(){
+		String cadena="";
+		
+		for(double num : centro) {
+			
+			cadena+=num+" ";
+		}
+		return cadena;
+	}
+	public void setCentro(double[] centro) {
+		
+		this.centro= centro;
+	}
+
+
+	public String getNombreElemento() {
+		return nombreElemento;
+	}
+
+
+	public void setNombreElemento(String nombreElemento) {
+		this.nombreElemento = nombreElemento;
+	}
+	
+	public double[][] getMatriz(){
+		return matriz;
+	}
 	
 }

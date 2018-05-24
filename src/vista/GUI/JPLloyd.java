@@ -2,8 +2,10 @@ package vista.GUI;
 
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import Clase.Clase;
 import Datos.Datos;
 import algoritmos.Lloyd;
 import javax.swing.BoxLayout;
@@ -11,6 +13,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.function.IntToDoubleFunction;
 
 import javax.swing.JLabel;
@@ -23,91 +26,89 @@ public class JPLloyd extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPEjemplos panelEjemplos;
 	private JPResultados panelResultados;
-	private JTextArea textField;
-	private JTextArea textField_1;
 
+
+	private ArrayList<Clase> clases;
+
+	private static JPLloyd instance;
+	
+	
+	public static JPLloyd getInstance() {
+		if(instance==null)
+				instance= new JPLloyd();
+		return instance;
+	}
+	
 	/**
 	 * Create the panel.
 	 */
-	public JPLloyd() {
-		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		
+	public void initView() {
+		setPreferredSize(new Dimension(600, 600));
 		JPanel informacion = new JPanel();
-		add(informacion);
+		JLabel titulo = new  JLabel("Informacion:");
+		titulo.setFont(new Font("Arial", Font.BOLD, 18));
+		informacion.add(titulo);
 		informacion.setLayout(new BoxLayout(informacion, BoxLayout.Y_AXIS));
-		informacion.setBorder(new TitledBorder("Información: "));
-		 ((javax.swing.border.TitledBorder) informacion.getBorder()).
-	        setTitleFont(new Font("Arial", Font.BOLD, 18));
-		
+		add(informacion);
+
+		//CENTRO DE LAS CLASES 
 		JPanel centros = new JPanel();
-		centros.setBorder(new TitledBorder("Centros de las clases: "));
-		 ((javax.swing.border.TitledBorder) centros.getBorder()).
-	        setTitleFont(new Font("Arial", Font.BOLD, 14));
-		informacion.add(centros);
+		
+		centros.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+		JLabel tituloCentros = new  JLabel("Centros:");
+		tituloCentros.setFont(new Font("Arial", Font.BOLD, 18));		
 		centros.setLayout(new BoxLayout(centros, BoxLayout.Y_AXIS));
+		centros.add(tituloCentros);
+		
+		informacion.add(centros);
 		
 		JPanel c1 = new JPanel();
+		c1.setBorder(new EmptyBorder(10, 10, 10, 10));
 		centros.add(c1);
-		c1.setLayout(new BoxLayout(c1, BoxLayout.X_AXIS));
+		c1.setLayout(new BoxLayout(c1, BoxLayout.Y_AXIS));
 		
-		textField = new JTextArea();
-		textField.setEditable(false);
-		textField.setBorder(new TitledBorder("Clase " + Datos.getClases().get(0) + ": "));
-		textField.setText(Datos.getCentros1String());
-		c1.add(textField);
-		textField.setMaximumSize( 
-			     new Dimension(200, textField.getPreferredSize().height) );
-		textField.setPreferredSize( 
-			     new Dimension(200, textField.getPreferredSize().height) );
+		//CLASES
+		for(Clase clase : clases) {
+			JTextArea textField = new JTextArea();
+			JLabel label = new JLabel(clase.getNombreElemento());
+			textField.setEditable(false);
+			textField.setAlignmentX(Component.LEFT_ALIGNMENT);
+			textField.setText(clase.getCentroString());
+			c1.add(label);
+			c1.add(textField);
+			textField.setMaximumSize( 
+				     new Dimension(200, textField.getPreferredSize().height) );
+			textField.setPreferredSize( 
+				     new Dimension(200, textField.getPreferredSize().height) );
+		}
+		informacion.add(c1);
 		
-		JPanel c2 = new JPanel();
-		centros.add(c2);
-		c2.setLayout(new BoxLayout(c2, BoxLayout.X_AXIS));
 		
-		textField_1 = new JTextArea();
-		textField_1.setEditable(false);
-		textField_1.setBorder(new TitledBorder("Clase " + Datos.getClases().get(1) + ": "));
-		textField_1.setText(Datos.getCentros2String());
-		c2.add(textField_1);
-		textField_1.setMaximumSize( 
-			     new Dimension(200, 50) );
-		textField_1.setPreferredSize( 
-			     new Dimension(200, textField.getPreferredSize().height) );
-		
+		//PARAMETROS DE CONFIGURACION
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder("Parámetros: "));
-		 ((javax.swing.border.TitledBorder) panel.getBorder()).
-	        setTitleFont(new Font("Arial", Font.BOLD, 14));
+		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		JLabel tituloParams = new  JLabel("Parametros:");
+		tituloParams.setFont(new Font("Arial", Font.BOLD, 18));	
+		tituloParams.setBorder(new EmptyBorder(10, 10, 10, 10));
+		panel.add(tituloParams);
 		informacion.add(panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		
+				
+			
 		JLabel lblNewLabel = new JLabel("Tolerancia = 0.0000000001");
-		lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(lblNewLabel);
 		
 		JLabel lblMax = new JLabel("Máximo de iteraciones = 10");
-		lblMax.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(lblMax);
 		
 		JLabel razon = new JLabel("Razón de aprendizaje = 0.1");
-		razon.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(razon);
 		
 		panel.setPreferredSize(informacion.getPreferredSize());
+	
 		
-		JPDatos datos = new JPDatos();
-		datos.setBorder(new TitledBorder("Datos: "));
-		 ((javax.swing.border.TitledBorder) datos.getBorder()).
-	        setTitleFont(new Font("Arial", Font.BOLD, 18));
-		add(datos);
-		
-		panelEjemplos = new JPEjemplos();
-		panelEjemplos.setBorder(new TitledBorder("Ejemplos: "));
-		 ((javax.swing.border.TitledBorder) panelEjemplos.getBorder()).
-	        setTitleFont(new Font("Arial", Font.BOLD, 18));
-		add(panelEjemplos);
 		
 		panelResultados = new JPResultados();
 		panelResultados.setBorder(new TitledBorder("Comprobación: "));
@@ -164,10 +165,20 @@ public class JPLloyd extends JPanel {
 			
 		});
 		
+		this.setVisible(true);
 	}
 	
+	
+
+	public ArrayList<Clase> getClases() {
+		return clases;
+	}
+
+	public void setClases(ArrayList<Clase> clases) {
+		this.clases = clases;
+	}
+
 	public void refresh(){
-		panelEjemplos.refresh();
 		panelResultados.clear();
 	}
 

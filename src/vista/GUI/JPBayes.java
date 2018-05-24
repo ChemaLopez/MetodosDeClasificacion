@@ -3,9 +3,9 @@ package vista.GUI;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import Datos.Datos;
 import algoritmos.Bayes;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,25 +19,26 @@ public class JPBayes extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPResultados panelResultados;
-	private JPEjemplos panelEjemplos;
+	
+	private static JPBayes instance;
 	/**
 	 * Create the panel.
 	 */
+	
+	public  static JPBayes getInstance() {
+		
+		if(instance ==null) {
+			instance= new JPBayes();
+		}
+		
+		return instance;
+	}
+	
 	public JPBayes() {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		
-		JPDatos datos = new JPDatos();
-		datos.setBorder(new TitledBorder("Datos: "));
-		 ((javax.swing.border.TitledBorder) datos.getBorder()).
-	        setTitleFont(new Font("Arial", Font.BOLD, 18));
-		add(datos);
-		
-		panelEjemplos = new JPEjemplos();
-		panelEjemplos.setBorder(new TitledBorder("Ejemplos: "));
-		 ((javax.swing.border.TitledBorder) panelEjemplos.getBorder()).
-	        setTitleFont(new Font("Arial", Font.BOLD, 18));
-		add(panelEjemplos);
-		
+	
+		setPreferredSize(new Dimension(600, 600));
+
 		panelResultados = new JPResultados();
 		panelResultados.setBorder(new TitledBorder("Comprobación: "));
 		 ((javax.swing.border.TitledBorder) panelResultados.getBorder()).
@@ -58,13 +59,13 @@ public class JPBayes extends JPanel {
 				Bayes bayes = new Bayes();
 				
 				
-				for (int i = 0; i < Datos.getClases().size(); i++) {
-					bayes.aprenderClase(Datos.getDatosClases().get(i), Datos.getClases().get(i));
+				for (int i = 0; i < VentanaPrincipal.getInstance().getClases().size(); i++) {
+					bayes.aprenderClase(VentanaPrincipal.getInstance().getClases().get(i).getMatriz(), VentanaPrincipal.getInstance().getClases().get(i).getNombreElemento());
 				}
 				
 				String s = "";
 				int i = 1;
-				for (double[] ejemplo : Datos.getEjemplos()) {
+				for (double[] ejemplo : VentanaPrincipal.getInstance().getEjemplos()) {
 					s += i + "º = " + bayes.predecirClase(ejemplo);
 					s += "\n";
 					i++;
@@ -79,7 +80,6 @@ public class JPBayes extends JPanel {
 	}
 	
 	public void refresh(){
-		panelEjemplos.refresh();
 		panelResultados.clear();
 	}
 

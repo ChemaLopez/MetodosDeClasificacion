@@ -22,12 +22,21 @@ public class Main {
 			HashMap<String,ArrayList<Elemento>> listaElementos = lectura.getListaElementos();
 			
 			ArrayList<Clase> clases = new ArrayList<>();
+			lectura.leeCentros();
+			ArrayList<double[]> centros =lectura.getCentros();
+			
+			int i =0;
 			
 			for(ArrayList<Elemento> key : listaElementos.values()){
-					clases.add(new Clase(key,key.get(0).nombreElemento));
+					clases.add(new Clase(key,key.get(0).nombreElemento, centros.get(i)));
+					++i;
 
 			}
 
+			
+			
+			
+			
 			VentanaPrincipal view = VentanaPrincipal.getInstance();
 			
 			view.setListaElementos(listaElementos);

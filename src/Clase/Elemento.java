@@ -4,21 +4,21 @@ import java.util.ArrayList;
 
 public class Elemento {
 
-	private  ArrayList<Double> lista;
+	private double[] lista;
 	public String nombreElemento;
 
 	
-	public Elemento(ArrayList<Double> lista, String nombreElemento) {
+	public Elemento(double[] lista, String nombreElemento) {
 		super();
 		this.lista=lista;
 		this.nombreElemento = nombreElemento;
 	}
 	
 	
-	public ArrayList<Double> getLista() {
+	public double[] getLista() {
 		return lista;
 	}
-	public void setLista(ArrayList<Double> lista) {
+	public void setLista(double[] lista) {
 		this.lista = lista;
 	}
 	public String getNombreElemento() {
@@ -28,5 +28,15 @@ public class Elemento {
 		this.nombreElemento = nombreElemento;
 	}
 	
+	
+	public String getListaString(){
+		String cadena="";
+		
+		for(double num : lista) {
+			
+			cadena+=num+" ";
+		}
+		return cadena;
+	}
 	
 }
