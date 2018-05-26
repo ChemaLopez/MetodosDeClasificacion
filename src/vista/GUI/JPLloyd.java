@@ -6,7 +6,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import Clase.Clase;
-import Datos.Datos;
 import algoritmos.Lloyd;
 import javax.swing.BoxLayout;
 import java.awt.Dimension;
@@ -111,9 +110,7 @@ public class JPLloyd extends JPanel {
 		
 		
 		panelResultados = new JPResultados();
-		panelResultados.setBorder(new TitledBorder("Comprobación: "));
-		 ((javax.swing.border.TitledBorder) panelResultados.getBorder()).
-	        setTitleFont(new Font("Arial", Font.BOLD, 18));
+		panelResultados.setPreferredSize(new Dimension(180,600));
 		add(panelResultados);
 		
 		JButton btnComprobar = panelResultados.getButton();
@@ -127,25 +124,41 @@ public class JPLloyd extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String[] nombre_clases = {Datos.getClases().get(0), Datos.getClases().get(1)};
-				double[][] datos_centros = Datos.getCentros();
+				String[] nombre_clases = VentanaPrincipal.getInstance().getClasesNombres();
 				
-				double[][] datos_entrenamiento = new double[Datos.getDatosClases().get(0).length + Datos.getDatosClases().get(1).length][Datos.getDatosClases().get(0)[0].length]; 
+				double[][] datos_centros = VentanaPrincipal.getInstance().getCentros();
+				
 						
-				int pos = 0;
-				for(int i = 0; i < Datos.getDatosClases().get(0).length; i++){
-					datos_entrenamiento[pos+i] = Datos.getDatosClases().get(0)[i];
-				}				
-				pos = Datos.getDatosClases().get(0).length;
-				for(int i = 0; i < Datos.getDatosClases().get(1).length; i++){
-					datos_entrenamiento[pos+i] = Datos.getDatosClases().get(1)[i];
+				ArrayList<Clase>  listaClases = VentanaPrincipal.getInstance().getClases();
+				int filas=0;
+				for(Clase clase : listaClases) {
+					
+					filas+=clase.getMatriz().length;
 				}
 				
-				double[][] datos_prueba = new double[Datos.getEjemplos().size()][Datos.getEjemplos().get(0).length];
-				for(int i = 0; i < Datos.getEjemplos().size(); i++){
-					datos_prueba[i] = Datos.getEjemplos().get(i);
-				}
+				double[][] datos_entrenamiento = new double[filas][listaClases.get(0).getMatriz()[0].length]; 
 
+				int pos = 0;
+				
+				for(Clase clase: listaClases) {
+					//AÑADIR LOS ELEMENTOS DE LA CLASE
+					double[][] matrizDeClase = clase.getMatriz();
+					for(double[] array: matrizDeClase) {
+						datos_entrenamiento[pos]=array;
+						++pos;
+					}
+					
+				}
+				
+				
+				//EJEMPLOS
+				ArrayList<double[]> ejemplos = VentanaPrincipal.getInstance().getEjemplos();
+				double[][] datos_prueba = new double[ejemplos.size()][ejemplos.get(0).length];
+				pos =0;
+				for(double [] lista :ejemplos) {
+					datos_prueba[pos]=lista;
+					pos++;
+				}
 				IntToDoubleFunction funcion = (i) -> 0.1;
 				double tolerancia = 0.0000000001;
 				int max_iteraciones = 10;

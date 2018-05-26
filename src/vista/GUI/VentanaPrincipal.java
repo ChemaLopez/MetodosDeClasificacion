@@ -320,7 +320,7 @@ private void cambiaBayes() {
 
 	
 	this.repaint();
-	
+	this.pack();
 
 }
 

@@ -40,9 +40,6 @@ public class JPBayes extends JPanel {
 		setPreferredSize(new Dimension(600, 600));
 
 		panelResultados = new JPResultados();
-		panelResultados.setBorder(new TitledBorder("Comprobación: "));
-		 ((javax.swing.border.TitledBorder) panelResultados.getBorder()).
-	        setTitleFont(new Font("Arial", Font.BOLD, 18));
 		add(panelResultados);
 		
 		JButton btnComprobar = panelResultados.getButton();

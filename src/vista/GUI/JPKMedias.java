@@ -7,7 +7,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Clase.Clase;
-import Datos.Datos;
 import algoritmos.KMeans;
 import util.MatrizToVectorVector;
 import javax.swing.BoxLayout;
@@ -116,9 +115,7 @@ public class JPKMedias extends JPanel {
 	
 		
 		panelResultados = new JPResultados();
-		panelResultados.setBorder(new TitledBorder("Comprobación: "));
-		 ((javax.swing.border.TitledBorder) panelResultados.getBorder()).
-	        setTitleFont(new Font("Arial", Font.BOLD, 18));
+		panelResultados.setPreferredSize(new Dimension(180,600));
 		add(panelResultados);
 		
 		JButton btnComprobar = panelResultados.getButton();
@@ -147,18 +144,27 @@ public class JPKMedias extends JPanel {
 				double[][] datos_entrenamiento = new double[filas][listaClases.get(0).getMatriz()[0].length]; 
 
 				int pos = 0;
-				for(int i = 0; i < Datos.getDatosClases().get(0).length; i++){
-					datos_entrenamiento[pos+i] = Datos.getDatosClases().get(0)[i];
-				}				
-				pos = Datos.getDatosClases().get(0).length;
-				for(int i = 0; i < Datos.getDatosClases().get(1).length; i++){
-					datos_entrenamiento[pos+i] = Datos.getDatosClases().get(1)[i];
+				
+				for(Clase clase: listaClases) {
+					//AÑADIR LOS ELEMENTOS DE LA CLASE
+					double[][] matrizDeClase = clase.getMatriz();
+					for(double[] array: matrizDeClase) {
+						datos_entrenamiento[pos]=array;
+						++pos;
+					}
+					
 				}
 				
-				double[][] datos_prueba = new double[Datos.getEjemplos().size()][Datos.getEjemplos().get(0).length];
-				for(int i = 0; i < Datos.getEjemplos().size(); i++){
-					datos_prueba[i] = Datos.getEjemplos().get(i);
+				
+				//EJEMPLOS
+				ArrayList<double[]> ejemplos = VentanaPrincipal.getInstance().getEjemplos();
+				double[][] datos_prueba = new double[ejemplos.size()][ejemplos.get(0).length];
+				pos =0;
+				for(double [] lista :ejemplos) {
+					datos_prueba[pos]=lista;
+					pos++;
 				}
+				
 
 				double tolerancia = 0.01,
 						peso_exponencial = 2;
