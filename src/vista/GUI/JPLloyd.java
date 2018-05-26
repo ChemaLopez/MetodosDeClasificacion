@@ -165,11 +165,9 @@ public class JPLloyd extends JPanel {
 				
 				Lloyd lloyd = new Lloyd(datos_centros, nombre_clases, datos_entrenamiento, funcion, tolerancia, max_iteraciones);
 				String s = "";
-				int i = 1;
 				for (double[] prueba : datos_prueba) {
-					s += i + "º = " + lloyd.predecirClase(prueba);
+					s += lloyd.predecirClase(prueba);
 					s+= "\n";
-					i++;
 				}
 				
 				panelResultados.setResultados(s);

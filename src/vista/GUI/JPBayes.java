@@ -61,11 +61,9 @@ public class JPBayes extends JPanel {
 				}
 				
 				String s = "";
-				int i = 1;
 				for (double[] ejemplo : VentanaPrincipal.getInstance().getEjemplos()) {
-					s += i + "º = " + bayes.predecirClase(ejemplo);
+					s += bayes.predecirClase(ejemplo);
 					s += "\n";
-					i++;
 				}
 				
 				panelResultados.setResultados(s);

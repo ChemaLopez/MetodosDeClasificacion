@@ -172,11 +172,9 @@ public class JPKMedias extends JPanel {
 				KMeans kmeans = new KMeans(datos_centros, nombre_clases, datos_entrenamiento, tolerancia, peso_exponencial);
 				
 				String s = "";
-				int i = 1;
 				for (Vector<Double> ejemplo : MatrizToVectorVector.metodoCutre(datos_prueba)) {
-					s += i + "º = " + kmeans.comprobarPunto(ejemplo);
+					s += kmeans.comprobarPunto(ejemplo);
 					s += "\n";
-					i++;
 				}
 				
 				panelResultados.setResultados(s);
